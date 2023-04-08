@@ -11,7 +11,7 @@ export const getCategories = async () => {
 
 export const getCategoriesByName = async (name: any) => {
   try {
-    const data = await prisma.category.findUnique({
+    const data = await prisma.category.findFirst({
       where: {
         name: name as string,
       },
