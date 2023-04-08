@@ -40,6 +40,7 @@ model Product {
   image         String
   category      Category     @relation(fields: [categoryId], references: [id])
   categoryId    Int
+  meta          Meta[]
   attributes    Attribute[]
   reviews       Review[]
   orders        Order[]
@@ -54,15 +55,17 @@ model Product {
 
 model Category {
   id            Int           @id @unique @default(autoincrement())
-  name          String @unique
+  name          String        @unique
   products      Product[]
+  meta          Meta[]
   subCategories SubCategory[]
 }
 
 model SubCategory {
   id         Int       @id @unique @default(autoincrement())
-  name       String
+  name       String    @unique
   products   Product[]
+  meta       Meta[]
   Category   Category? @relation(fields: [categoryId], references: [id])
   categoryId Int?
 
@@ -111,6 +114,24 @@ model Currency {
   id    Int    @id @unique @default(autoincrement())
   name  String
   value String
+}
+
+// TODO: Add more meta configurations dynamically!
+model Meta {
+  id            Int         @id @unique @default(autoincrement())
+  title         String      @unique
+  name          String
+  content       String
+  product       Product?     @relation(fields: [productId], references: [id])
+  productId     Int?
+  category      Category?    @relation(fields: [categoryId], references: [id])
+  categoryId    Int?
+  subCategory   SubCategory? @relation(fields: [subCategoryId], references: [id])
+  subCategoryId Int?
+
+  @@index([productId])
+  @@index([categoryId])
+  @@index([subCategoryId])
 }
 
 enum Role {

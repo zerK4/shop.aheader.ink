@@ -40,8 +40,8 @@ export interface Product {
 export interface Category {
   id: number;
   name: string;
-  products: Product[];
-  subCategories: SubCategory[];
+  products?: Product;
+  subCategories: SubCategory;
 }
 
 export interface SubCategory {
@@ -92,4 +92,19 @@ export interface Currency {
 export interface Role {
   ADMIN: 'ADMIN';
   USER: 'USER';
+}
+
+export interface Meta {
+  meta: {
+    id: number;
+    title: string;
+    name: string;
+    content: string;
+    product: Product;
+    productId: number;
+    category: Category;
+    categoryId: number;
+    subCategory: SubCategory;
+    subCategoryId: number;
+  };
 }
