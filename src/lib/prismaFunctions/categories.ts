@@ -9,7 +9,7 @@ export const getCategories = async () => {
   return data;
 };
 
-export const getCategoriesByName = async (name: any) => {
+export const getCategoriesByName = async (name: string) => {
   try {
     const data = await prisma.category.findUnique({
       where: {
