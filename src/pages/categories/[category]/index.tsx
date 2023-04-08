@@ -9,7 +9,7 @@ import globalState from '@/store/globalStore';
 import { NextPageContext } from 'next';
 import { ReactElement, useEffect } from 'react';
 
-function CategoryPage({ data, cat, meta }: any) {
+function CategoryPage({ data, meta }: any) {
   useEffect(() => {
     globalState.setState({ categories: data });
     console.log(JSON.parse(meta), 'hit');
