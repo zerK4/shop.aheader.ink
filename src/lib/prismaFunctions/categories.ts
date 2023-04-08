@@ -9,19 +9,23 @@ export const getCategories = async () => {
   return data;
 };
 
-export const getCategoriesByName = async (name: any) => {
-  const data = await prisma.category.findUnique({
-    where: {
-      name: name,
-    },
-    include: {
-      subCategories: {
-        include: {
-          products: true,
-        },
+export const getCategoriesByName = async (name: string) => {
+  try {
+    const data = await prisma.category.findUnique({
+      where: {
+        name: name,
       },
-      products: true,
-    },
-  });
-  return data;
+      include: {
+        subCategories: {
+          include: {
+            products: true,
+          },
+        },
+        products: true,
+      },
+    });
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
 };

@@ -54,11 +54,13 @@ model Product {
 }
 
 model Category {
-  id            Int           @id @unique @default(autoincrement())
-  name          String        @unique
+  id            Int           @id @default(autoincrement())
+  name          String        
   products      Product[]
   meta          Meta[]
   subCategories SubCategory[]
+
+  @@unique([name, id])
 }
 
 model SubCategory {
