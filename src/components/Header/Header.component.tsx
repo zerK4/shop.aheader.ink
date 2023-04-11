@@ -1,4 +1,5 @@
 import globalState from '@/store/globalStore';
+import { Category } from '@/types/defaultTypes';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
@@ -9,7 +10,7 @@ function Header() {
     return (
       <motion.div className="flex gap-2 items-center">
         {categories &&
-          categories.map((cat) => {
+          categories.map((cat: Category) => {
             return (
               <div
                 key={cat.id}
