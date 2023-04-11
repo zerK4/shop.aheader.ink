@@ -36,10 +36,11 @@ model Product {
   id            Int          @id @unique @default(autoincrement())
   name          String
   description   String?
-  price         Float
+  price         String
   image         String
   category      Category     @relation(fields: [categoryId], references: [id])
   categoryId    Int
+  stock String
   meta          Meta[]
   attributes    Attribute[]
   reviews       Review[]

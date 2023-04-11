@@ -1,12 +1,12 @@
 import AdminLayout from '@/layout/admin.layout';
 import { ReactElement } from 'react';
 
-function Admin() {
-  return <div>Admin</div>;
+function Seo() {
+  return <div>Products</div>;
 }
 
-Admin.getLayout = function getLayout(page: ReactElement) {
+Seo.getLayout = function getLayout(page: ReactElement) {
   return <AdminLayout>{page}</AdminLayout>;
 };
 
-export default Admin;
+export default Seo;

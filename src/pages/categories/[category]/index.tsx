@@ -1,4 +1,5 @@
 import HeadComponent from '@/components/Head';
+import Loader from '@/components/Loader/Loader';
 import MainLayout from '@/layout/main';
 import {
   getCategories,
@@ -9,15 +10,17 @@ import globalState from '@/store/globalStore';
 import { NextPageContext } from 'next';
 import { ReactElement, useEffect } from 'react';
 
-function CategoryPage({ data, meta }: any) {
+function CategoryPage({ data, cat, meta }: any) {
+  const { loading } = globalState();
   useEffect(() => {
     globalState.setState({ categories: data });
-    console.log(JSON.parse(meta), 'hit');
+    globalState.setState({ loading: false });
   }, [data]);
 
   return (
     <>
       <HeadComponent meta={JSON.parse(meta)} />
+      <div className="">{loading ? <Loader /> : JSON.stringify(cat)}</div>
     </>
   );
 }
@@ -44,7 +47,7 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
 
   return {
     props: {
-      data: data,
+      data: JSON.stringify(data),
       cat: JSON.stringify(cat),
       meta: JSON.stringify(meta),
     },

@@ -14,12 +14,13 @@ function Header() {
               <div
                 key={cat.id}
                 className={`w-20 h-3 rounded-full ${
-                  loading ? 'animate-pulse bg-black' : ''
+                  loading ? 'animate-pulse' : ''
                 } flex items-center justify-center p-3  ease-in-out duration-300`}
               >
                 <span className="flex items-center">
                   <Link
-                    className="opacity-70 hover:opacity-100"
+                    onClick={() => globalState.setState({ loading: true })}
+                    className="opacity-70 hover:opacity-100 font-medium"
                     href={`/categories/${cat.name.toLowerCase()}`}
                   >
                     {cat.name}

@@ -6,7 +6,6 @@ import { ReactElement, useEffect } from 'react';
 const Home = ({ data }: any) => {
   useEffect(() => {
     globalState.setState({ categories: data });
-    console.log(data);
   }, [data]);
 
   return (
