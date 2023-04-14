@@ -1,3 +1,4 @@
+import Loader from '@/components/Loader/Loader';
 import ProductsHeader from '@/components/ProductsHeader';
 import TableLoader from '@/components/TableLoader/tableLoader';
 import AdminLayout from '@/layout/admin.layout';
@@ -12,8 +13,9 @@ export interface AdminProducts {
 }
 
 function Products(props: AdminProducts) {
-  console.log(props, 'hitting props');
   const { products } = props;
+
+  console.log(!products ? 'nope' : 'yupe');
 
   return (
     <div className="bg-white text-black shadow shadow-black p-2 rounded-md">
@@ -24,6 +26,10 @@ function Products(props: AdminProducts) {
       />
       {products?.length === 0 ? (
         <div className="p-2">No products yet, go ahead and create some!</div>
+      ) : !products ? (
+        <div className="w-full flex items-center justify-center h-20">
+          <Loader />
+        </div>
       ) : (
         <div className="">
           <table className="w-full table-fixed overflow-auto">
