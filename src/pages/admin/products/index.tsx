@@ -86,8 +86,10 @@ function Products() {
                     <td className="px-4 py-1 whitespace-no-wrap text-sm">
                       {item.name}
                     </td>
-                    <td className="px-4 py-1 text-sm">{item.category.name}</td>
-                    <td className="px-4 py-1 text-sm">{item.category.name}</td>
+                    <td className="px-4 py-1 text-sm">
+                      {item?.category?.name}
+                    </td>
+                    <td className="px-4 py-1 text-sm">{item.stock}</td>
                     <td className="px-4 py-1 text-sm">{item.price}$</td>
                     <td className="px-4 py-1 text-sm gap-2">
                       <button className="p-2 bg-neutral-200 border border-neutral-300 rounded-md m-1 hover:bg-lime-400">

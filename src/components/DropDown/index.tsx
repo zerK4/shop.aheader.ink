@@ -1,16 +1,19 @@
-import globalState from '@/store/globalStore';
+import adminStore from '@/store/adminStore';
 import { AiFillCaretDown } from 'react-icons/ai';
 
 function DropComponent(props: any) {
   const { categories, id, selectWhat } = props;
-  console.log(categories, selectWhat, 'asd');
 
-  const { dropDown, dropDownId } = globalState();
+  const { dropDown, dropDownId } = adminStore();
+  const selectedValue =
+    adminStore((state) => state[selectWhat]?.name) ||
+    `Select ${selectWhat.replace('selected', '')}`;
+
   return (
     <div className="w-full relative">
       <button
         onClick={() =>
-          globalState.setState({
+          adminStore.setState({
             dropDown: !dropDown,
             dropDownId: id,
           })
@@ -18,7 +21,7 @@ function DropComponent(props: any) {
         className="text-white w-full mb-2 bg-[#111111] hover:bg-neutral-900 focus:ring-4 focus:outline-none rounded-md text-sm px-4 py-2.5 text-center inline-flex items-center justify-between"
         type="button"
       >
-        Select {selectWhat}
+        {selectedValue}
         {!categories ? (
           <div className="sm-loader h-10 w-10" />
         ) : (
@@ -39,10 +42,10 @@ function DropComponent(props: any) {
             categories?.map((cat: any) => (
               <li
                 onClick={() =>
-                  globalState.setState({
+                  adminStore.setState((state) => ({
                     dropDown: !dropDown,
                     [selectWhat]: cat,
-                  })
+                  }))
                 }
                 key={cat?.id}
               >

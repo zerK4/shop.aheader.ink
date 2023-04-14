@@ -1,5 +1,5 @@
 export interface User {
-  id: number;
+  id: string;
   name: string;
   email: string;
   password: string;
@@ -10,81 +10,83 @@ export interface User {
 }
 
 export interface Address {
-  id: number;
+  id: string;
   street: string;
   city: string;
   postalCode: string;
   country: string;
   user: User;
-  userId: number;
+  userId: string;
   order: Order[];
 }
 
 export interface Product {
-  id: number;
+  id?: string;
   name: string;
   description?: string | null;
-  price: number;
-  image: string;
-  category: Category;
-  categoryId: number;
-  attributes: Attribute[];
-  reviews: Review[];
-  orders: Order[];
-  createdAt: Date;
-  updatedAt: Date;
+  price?: string;
+  image?: string;
+  category?: Category | null;
+  stock: string;
+  meta?: Meta[] | null;
+  categoryId?: string;
+  attributes?: Attribute[] | null;
+  reviews?: Review[];
+  orders?: Order[];
+  createdAt?: Date;
+  updatedAt?: Date;
   subCategory?: SubCategory | null;
-  subCategoryId?: number | null;
+  subCategoryId?: string | null;
 }
 
 export interface Category {
-  id: number;
+  id: string;
   name: string;
   products?: Product;
   subCategories: SubCategory;
 }
 
 export interface SubCategory {
-  id: number;
+  id: string;
   name: string;
   products: Product[];
   Category?: Category;
-  categoryId?: number | null;
+  categoryId?: string | null;
 }
 
 export interface Attribute {
-  id: number;
+  id?: string;
   name: string;
   value: string;
-  product: Product;
-  productId: number;
+  product?: Product;
+  productId?: string;
 }
 
 export interface Review {
-  id: number;
+  id: string;
   title: string;
   body: string;
-  rating: number;
+  rating: string;
   product: Product;
   user: User;
-  productId: number;
-  userId: number;
+  productId: string;
+  userId: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface Order {
-  id: number;
+  id: string;
   user: User;
   address: Address[];
   products: Product[];
-  userId: number;
+  userId: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface Currency {
-  id: number;
+  id: string;
   name: string;
   value: string;
 }
@@ -96,15 +98,15 @@ export interface Role {
 
 export interface Meta {
   meta: {
-    id: number;
+    id: string;
     title: string;
     name: string;
     content: string;
     product: Product;
-    productId: number;
+    productId: string;
     category: Category;
-    categoryId: number;
+    categoryId: string;
     subCategory: SubCategory;
-    subCategoryId: number;
+    subCategoryId: string;
   };
 }

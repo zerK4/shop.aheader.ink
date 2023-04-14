@@ -9,7 +9,7 @@ generator client {
 }
 
 model User {
-  id       Int       @id @unique @default(autoincrement())
+  id       String       @id @unique @default(cuid())
   name     String
   email    String    @unique
   password String
@@ -26,37 +26,37 @@ model Address {
   postalCode String
   country    String
   user       User    @relation(fields: [userId], references: [id])
-  userId     Int
+  userId     String
   order      Order[]
 
   @@index([userId])
 }
 
 model Product {
-  id            Int          @id @unique @default(autoincrement())
+  id            String          @id @unique @default(cuid())
   name          String
   description   String?
-  price         String
-  image         String
-  category      Category     @relation(fields: [categoryId], references: [id])
-  categoryId    Int
-  stock String
+  price         String?
+  image         String?
+  category      Category?     @relation(fields: [categoryId], references: [id])
+  categoryId    String?
+  stock         String?
   meta          Meta[]
   attributes    Attribute[]
   reviews       Review[]
   orders        Order[]
   createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  updatedAt     DateTime    @updatedAt
   subCategory   SubCategory? @relation(fields: [subCategoryId], references: [id])
-  subCategoryId Int?
+  subCategoryId String?
 
   @@index([categoryId])
   @@index([subCategoryId])
 }
 
 model Category {
-  id            Int           @id @default(autoincrement())
-  name          String        
+  id       String       @id @unique @default(cuid())
+  name          String
   products      Product[]
   meta          Meta[]
   subCategories SubCategory[]
@@ -65,35 +65,35 @@ model Category {
 }
 
 model SubCategory {
-  id         Int       @id @unique @default(autoincrement())
+  id       String       @id @unique @default(cuid())
   name       String    @unique
   products   Product[]
   meta       Meta[]
   Category   Category? @relation(fields: [categoryId], references: [id])
-  categoryId Int?
+  categoryId String?
 
   @@index([categoryId])
 }
 
 model Attribute {
-  id        Int     @id @unique @default(autoincrement())
+id       String       @id @unique @default(cuid())
   name      String
   value     String
   product   Product @relation(fields: [productId], references: [id])
-  productId Int
+  productId String
 
   @@index([productId])
 }
 
 model Review {
-  id        Int      @id @unique @default(autoincrement())
+  id       String       @id @unique @default(cuid())
   title     String
   body      String
   rating    Int
   product   Product  @relation(fields: [productId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
-  productId Int
-  userId    Int
+  productId String
+  userId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -102,11 +102,11 @@ model Review {
 }
 
 model Order {
-  id        Int       @id @unique @default(autoincrement())
+  id       String       @id @unique @default(cuid())
   user      User      @relation(fields: [userId], references: [id])
   address   Address[]
   products  Product[]
-  userId    Int
+  userId    String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
@@ -114,7 +114,7 @@ model Order {
 }
 
 model Currency {
-  id    Int    @id @unique @default(autoincrement())
+  id       String       @id @unique @default(cuid())
   name  String
   value String
 }
@@ -126,11 +126,11 @@ model Meta {
   name          String
   content       String
   product       Product?     @relation(fields: [productId], references: [id])
-  productId     Int?
+  productId     String?
   category      Category?    @relation(fields: [categoryId], references: [id])
-  categoryId    Int?
+  categoryId    String?
   subCategory   SubCategory? @relation(fields: [subCategoryId], references: [id])
-  subCategoryId Int?
+  subCategoryId String?
 
   @@index([productId])
   @@index([categoryId])

@@ -10,7 +10,7 @@ function Header() {
     return (
       <motion.div className="flex gap-2 items-center">
         {categories &&
-          categories.map((cat: Category) => {
+          categories?.map((cat: Category) => {
             return (
               <div
                 key={cat.id}

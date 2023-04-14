@@ -5,7 +5,6 @@ import ProductsHeader from '@/components/ProductsHeader';
 import UploadInput from '@/components/UploadInput/UploadInput';
 import AdminLayout from '@/layout/admin.layout';
 import adminStore from '@/store/adminStore';
-import globalState from '@/store/globalStore';
 import { Category } from '@/types/defaultTypes';
 import axios from 'axios';
 import { ReactElement, useEffect, useState } from 'react';
@@ -15,9 +14,14 @@ export interface AdminCategories {
 }
 
 function NewProduct() {
-  const { selectedCategory, selectedSubcategory } = globalState();
+  const { selectedCategory, selectedSubcategory, attributes } = adminStore();
   const [categories, setCategories] = useState<Category[]>([]);
-  console.log(categories);
+  const [product, setProduct] = useState({
+    name: '',
+    description: '',
+    price: '',
+    stock: '',
+  });
 
   const getCategories = async () => {
     adminStore.setState({ loading: true });
@@ -27,6 +31,7 @@ function NewProduct() {
         url: '/api/categories',
       });
       setCategories(data.categories);
+
       adminStore.setState({ loading: false });
     } catch (err) {
       adminStore.setState({ loading: false });
@@ -38,12 +43,25 @@ function NewProduct() {
     getCategories();
   }, []);
 
-  const [product, setProduct] = useState({
-    name: '',
-    description: '',
-    price: '',
-    stock: '',
-  });
+  const createNewProduct = async (e: any) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        url: '/api/products',
+        data: {
+          product: product,
+          category: selectedCategory,
+          subCat: selectedSubcategory,
+          attributes: attributes,
+        },
+      });
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="bg-white text-black shadow shadow-black p-2 rounded-md">
       <ProductsHeader link="/admin/products" action={''} back={true} />
@@ -54,7 +72,7 @@ function NewProduct() {
               <InputField
                 key={key}
                 title={key}
-                value={value}
+                value={value as string}
                 setValue={setProduct}
                 service={product}
               />
@@ -65,11 +83,15 @@ function NewProduct() {
               selectWhat={'selectedCategory'}
             />
             <DropComponent
-              categories={selectedCategory?.subCategories}
+              categories={
+                selectedCategory?.subCategories.length !== 0
+                  ? selectedCategory?.subCategories
+                  : null
+              }
               id={2}
               selectWhat={'selectedSubcategory'}
             />
-            <DefaultButton />
+            <DefaultButton action={(e: any) => createNewProduct(e)} />
           </form>
         </div>
         <div className="w-full">

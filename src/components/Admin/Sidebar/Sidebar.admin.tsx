@@ -29,7 +29,7 @@ export const menu = [
 
 function SidebarAdminComponent() {
   return (
-    <div className="bg-black text-gray-300 p-2 min-h-screen flex flex-col gap-2 w-10 md:w-40">
+    <div className="bg-black text-gray-300 p-2 min-h-screen flex flex-col gap-2 w-10 md:w-40 relative">
       {menu.map((item, i) => (
         <Link
           href={item.link}
@@ -42,6 +42,9 @@ function SidebarAdminComponent() {
           <span className="text-xl">{item.icon}</span>
         </Link>
       ))}
+      <div className="absolute left-0 bottom-0 p-2 w-full hidden md:flex justify-center select-none">
+        <span>&copy; Aheader Ink</span>
+      </div>
     </div>
   );
 }

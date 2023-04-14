@@ -38,7 +38,7 @@ function ProductsHeader(props: ProductHeader) {
             onMouseOver={() => setAttrTooltip(true)}
             onMouseOut={() => setAttrTooltip(false)}
             onClick={() => adminStore.setState({ attrSidebar: !attrSidebar })}
-            className="relative"
+            className="relative hover:text-neutral-300 ease-in-out duration-300"
           >
             <MdMenuOpen className="text-2xl" />
             <div

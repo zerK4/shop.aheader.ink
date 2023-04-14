@@ -1,4 +1,4 @@
-import { Category, SubCategory } from '@/types/defaultTypes';
+import { Category } from '@/types/defaultTypes';
 import axios from 'axios';
 import { create } from 'zustand';
 
@@ -6,10 +6,6 @@ export interface GlobalState {
   loading: boolean | any;
   categories: Category[] | any;
   getCategories: () => Promise<void> | any;
-  dropDown: boolean | any;
-  dropDownId: number | any;
-  selectedCategory: Category | null;
-  selectedSubcategory: SubCategory | null;
 }
 
 const globalState = create<GlobalState>((set) => ({
@@ -29,10 +25,6 @@ const globalState = create<GlobalState>((set) => ({
       categories: data.categories,
     }));
   },
-  dropDown: false,
-  dropDownId: 0,
-  selectedCategory: null,
-  selectedSubcategory: null,
 }));
 
 export default globalState;
