@@ -41,6 +41,7 @@ function DropComponent(props: any) {
           {categories &&
             categories?.map((cat: any) => (
               <li
+                className="p-2 hover:bg-gray-200 cursor-pointer"
                 onClick={() =>
                   adminStore.setState((state) => ({
                     dropDown: !dropDown,
@@ -49,9 +50,7 @@ function DropComponent(props: any) {
                 }
                 key={cat?.id}
               >
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  {cat?.name}
-                </a>
+                {cat?.name}
               </li>
             ))}
         </ul>

@@ -4,44 +4,25 @@ import InputField from '@/components/Field/Field';
 import ProductsHeader from '@/components/ProductsHeader';
 import UploadInput from '@/components/UploadInput/UploadInput';
 import AdminLayout from '@/layout/admin.layout';
+import prisma from '@/lib/prisma';
 import adminStore from '@/store/adminStore';
 import { Category } from '@/types/defaultTypes';
 import axios from 'axios';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 export interface AdminCategories {
   categories: Category[];
 }
 
-function NewProduct() {
+function NewProduct(props: AdminCategories) {
+  const { categories } = props;
   const { selectedCategory, selectedSubcategory, attributes } = adminStore();
-  const [categories, setCategories] = useState<Category[]>([]);
   const [product, setProduct] = useState({
     name: '',
     description: '',
     price: '',
     stock: '',
   });
-
-  const getCategories = async () => {
-    adminStore.setState({ loading: true });
-    try {
-      const { data } = await axios({
-        method: 'GET',
-        url: '/api/categories',
-      });
-      setCategories(data.categories);
-
-      adminStore.setState({ loading: false });
-    } catch (err) {
-      adminStore.setState({ loading: false });
-      console.error(err);
-    }
-  };
-
-  useEffect(() => {
-    getCategories();
-  }, []);
 
   const createNewProduct = async (e: any) => {
     e.preventDefault();
@@ -84,7 +65,7 @@ function NewProduct() {
             />
             <DropComponent
               categories={
-                selectedCategory?.subCategories.length !== 0
+                selectedCategory?.subCategories?.length !== 0
                   ? selectedCategory?.subCategories
                   : null
               }
@@ -104,6 +85,26 @@ function NewProduct() {
 
 NewProduct.getLayout = function getLayout(page: ReactElement) {
   return <AdminLayout>{page}</AdminLayout>;
+};
+
+export const getServerSideProps = async () => {
+  let data;
+  try {
+    data = await prisma.category.findMany({
+      include: {
+        products: true,
+        subCategories: true,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+
+  return {
+    props: {
+      categories: data,
+    },
+  };
 };
 
 export default NewProduct;

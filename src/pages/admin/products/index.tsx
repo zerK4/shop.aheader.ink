@@ -1,37 +1,19 @@
 import ProductsHeader from '@/components/ProductsHeader';
 import TableLoader from '@/components/TableLoader/tableLoader';
 import AdminLayout from '@/layout/admin.layout';
+import prisma from '@/lib/prisma';
 import adminStore from '@/store/adminStore';
 import { Product } from '@/types/defaultTypes';
-import axios from 'axios';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement } from 'react';
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
 
 export interface AdminProducts {
   products: Product[];
 }
 
-function Products() {
-  const [products, setProducts] = useState<Product[]>([]);
-
-  const getProducts = async () => {
-    adminStore.setState({ loading: true });
-    try {
-      const { data } = await axios({
-        method: 'GET',
-        url: '/api/products',
-      });
-      setProducts(data.data);
-      adminStore.setState({ loading: false });
-    } catch (err) {
-      adminStore.setState({ loading: false });
-      console.error(err);
-    }
-  };
-
-  useEffect(() => {
-    getProducts();
-  }, []);
+function Products(props: AdminProducts) {
+  console.log(props, 'hitting props');
+  const { products } = props;
 
   return (
     <div className="bg-white text-black shadow shadow-black p-2 rounded-md">
@@ -112,6 +94,28 @@ function Products() {
 
 Products.getLayout = function getLayout(page: ReactElement) {
   return <AdminLayout>{page}</AdminLayout>;
+};
+
+export const getServerSideProps = async () => {
+  let data;
+  try {
+    data = await prisma.product.findMany({
+      include: {
+        category: true,
+        attributes: true,
+        reviews: true,
+        orders: true,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+
+  return {
+    props: {
+      products: data,
+    },
+  };
 };
 
 export default Products;
