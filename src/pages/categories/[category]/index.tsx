@@ -18,10 +18,18 @@ function CategoryPage({ data, cat, meta }: any) {
   }, [data]);
 
   return (
-    <>
-      <HeadComponent meta={JSON.parse(meta)} />
-      <div className="">{loading ? <Loader /> : JSON.stringify(cat)}</div>
-    </>
+    <div className="relative">
+      <HeadComponent meta={meta} />
+      <div className="">
+        {loading ? (
+          <div className="absolute left-0 top-[42vh] flex items-center justify-center w-full">
+            <Loader />
+          </div>
+        ) : (
+          cat.name
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -47,9 +55,9 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
 
   return {
     props: {
-      data: JSON.stringify(data),
-      cat: JSON.stringify(cat),
-      meta: JSON.stringify(meta),
+      data: data,
+      cat: cat,
+      meta: meta,
     },
   };
 };
