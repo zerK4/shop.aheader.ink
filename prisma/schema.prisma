@@ -45,8 +45,8 @@ model Product {
   attributes    Attribute[]
   reviews       Review[]
   orders        Order[]
-  createdAt     String
-  updatedAt     String
+  createdAt     String?
+  updatedAt     String?
   subCategory   SubCategory? @relation(fields: [subCategoryId], references: [id])
   subCategoryId String?
 
@@ -94,8 +94,8 @@ model Review {
   user      User     @relation(fields: [userId], references: [id])
   productId String
   userId    String
-  createdAt String
-  updatedAt String
+  createdAt String?
+  updatedAt String?
 
   @@index([productId])
   @@index([userId])
@@ -107,8 +107,8 @@ model Order {
   address   Address[]
   products  Product[]
   userId    String
-  createdAt String
-  updatedAt String
+  createdAt String?
+  updatedAt String?
 
   @@index([userId])
 }
